@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, ApiKeyActivity::class.java)
                 startActivity(intent)
             } else {
-                emailTextInputLayout!!.error = "Incorrect email."
+                emailTextInputLayout!!.error = "Incorrect email"
                 //showErrorDialog("Too many api key revisions have been issued for this email. Contact support for more help.")
             }
         }
