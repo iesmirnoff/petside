@@ -1,29 +1,27 @@
 package com.example.petside
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.petside.data.SignUpRequestModel
-import com.example.petside.network.AppApi
+import com.example.petside.network.AppClient
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var sharedPreferences: SharedPreferences
 
     var emailEditText: TextInputEditText? = null
     var emailTextInputLayout: TextInputLayout? = null
@@ -40,6 +38,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportActionBar?.hide()
+
+        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+
+        val data1 = sharedPreferences.getString("data1", "")
+        val data2 = sharedPreferences.getString("data2", "")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -48,6 +53,10 @@ class MainActivity : AppCompatActivity() {
         emailTextInputLayout = findViewById(R.id.emailLayout)
         descriptionEditText = findViewById(R.id.description)
 
+        emailEditText?.setText(data1)
+        descriptionEditText?.setText(data2)
+        nextButton?.isEnabled = !(data1!!.isEmpty() && data2!!.isEmpty())
+
         emailEditText!!.addTextChangedListener(textWatcher)
         descriptionEditText!!.addTextChangedListener(textWatcher)
 
@@ -55,30 +64,22 @@ class MainActivity : AppCompatActivity() {
             if (validateEmail()) {
                 val context = this
 
-                val interceptor = HttpLoggingInterceptor()
-                interceptor.level = HttpLoggingInterceptor.Level.BODY
-                val client = OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
-                    .build()
-
-                val retrofit = Retrofit.Builder()
-                    .baseUrl("https://api.thecatapi.com/v1/")
-                    .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                    .build()
-                val appApi = retrofit.create(AppApi::class.java)
-
                 val requestData = SignUpRequestModel(
                     emailEditText!!.text.toString(),
                     descriptionEditText!!.text.toString()
                 )
-                appApi.signUp(requestData)
+                AppClient.getInstance()
+                .signUp(requestData)
                      .subscribeOn(Schedulers.io())
                      .observeOn(AndroidSchedulers.mainThread())
                      .subscribe (
                          {
                              runOnUiThread {
+                                 val editor = sharedPreferences.edit()
+                                 editor.putString("data1", emailEditText!!.text.toString())
+                                 editor.putString("data2", descriptionEditText!!.text.toString())
+                                 editor.apply()
+
                                  val intent = Intent(context, ApiKeyActivity::class.java)
                                  startActivity(intent)
                              }
