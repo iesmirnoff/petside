@@ -91,14 +91,14 @@ class MainActivity : AppCompatActivity() {
                              if (error is HttpException) {
                                  val errorBody = error.response()?.errorBody()?.string()
 
-                                 showErrorDialog(errorBody ?: "Что-то пошло не так…")
+                                 showErrorDialog(errorBody ?: getString(R.string.defaultErrorDescription))
                              } else {
-                                 showErrorDialog("Что-то пошло не так…")
+                                 showErrorDialog(getString(R.string.defaultErrorDescription))
                              }
                          },
                      )
             } else {
-                emailTextInputLayout!!.error = "Incorrect email"
+                emailTextInputLayout!!.error = getString(R.string.wrongEmail)
             }
         }
 
@@ -113,9 +113,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showErrorDialog(message: String) {
         val alertBuilder = AlertDialog.Builder(this)
-        alertBuilder.setTitle("Error")
+        alertBuilder.setTitle(getString(R.string.defaultErrorTitle))
         alertBuilder.setMessage(message)
-        alertBuilder.setPositiveButton("Ok") { dialog, _ ->
+        alertBuilder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
             dialog.dismiss()
         }
 
@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         val isValidEmail = isValidEmail(emailText)
 
         if (!isValidEmail) {
-            emailTextInputLayout!!.error = "Incorrect email"
+            emailTextInputLayout!!.error = getString(R.string.wrongEmail)
         } else {
             emailTextInputLayout!!.error = ""
         }

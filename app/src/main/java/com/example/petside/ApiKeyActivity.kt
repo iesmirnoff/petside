@@ -49,9 +49,9 @@ class ApiKeyActivity : AppCompatActivity() {
                         if (error is HttpException) {
                             val errorBody = error.response()?.errorBody()?.string()
 
-                            showErrorDialog(errorBody ?: "Что-то пошло не так…")
+                            showErrorDialog(errorBody ?: getString(R.string.defaultErrorDescription))
                         } else {
-                            showErrorDialog("Что-то пошло не так…")
+                            showErrorDialog(getString(R.string.defaultErrorDescription))
                         }
                     },
                 )
@@ -70,9 +70,9 @@ class ApiKeyActivity : AppCompatActivity() {
 
     private fun showErrorDialog(message: String) {
         val alertBuilder = AlertDialog.Builder(this)
-        alertBuilder.setTitle("Error")
+        alertBuilder.setTitle(getString(R.string.defaultErrorTitle))
         alertBuilder.setMessage(message)
-        alertBuilder.setPositiveButton("Ok") { dialog, _ ->
+        alertBuilder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
             dialog.dismiss()
         }
 

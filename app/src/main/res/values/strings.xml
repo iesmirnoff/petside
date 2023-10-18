@@ -3,4 +3,8 @@
     <string name="next_button">Next</string>
     <string name="email">E-mail</string>
     <string name="description">Description</string>
+    <string name="defaultErrorDescription">Что-то пошло не так…</string>
+    <string name="defaultErrorTitle">Ошибка</string>
+    <string name="wrongEmail">Некорректный E-mail</string>
+    <string name="ok">OK</string>
 </resources>
