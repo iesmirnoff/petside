@@ -16,6 +16,7 @@ import com.example.petside.network.AppClient
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.HttpException
 
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     var descriptionEditText: TextInputEditText? = null
 
     var nextButton: Button? = null
+
+    private var disposable: Disposable? = null
 
     private val textWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -68,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                     emailEditText!!.text.toString(),
                     descriptionEditText!!.text.toString()
                 )
-                AppClient.getInstance()
+                disposable = AppClient.getInstance()
                 .signUp(requestData)
                      .subscribeOn(Schedulers.io())
                      .observeOn(AndroidSchedulers.mainThread())
@@ -146,5 +149,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 }
