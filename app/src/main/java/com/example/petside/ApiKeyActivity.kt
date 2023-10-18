@@ -14,12 +14,16 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.HttpException
 import android.graphics.drawable.ColorDrawable
+import io.reactivex.rxjava3.disposables.Disposable
 
 
 class ApiKeyActivity : AppCompatActivity() {
 
     private var nextButton: Button? = null
     private var apiKeyEditText: EditText? = null
+
+    private var disposable: Disposable? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_api_key)
@@ -34,7 +38,7 @@ class ApiKeyActivity : AppCompatActivity() {
         nextButton?.setOnClickListener {
             val appClient = AppClient.getInstance()
 
-            appClient.getFavourites(apiKeyEditText?.text.toString())
+        disposable = appClient.getFavourites(apiKeyEditText?.text.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
@@ -77,5 +81,10 @@ class ApiKeyActivity : AppCompatActivity() {
 
         alertDialog.show()
         alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(positiveButtonColor)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 }
