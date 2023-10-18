@@ -10,7 +10,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
-const val BASE_URL = "https://api.thecatapi.com/v1/";
+const val BASE_URL = "https://api.thecatapi.com/v1/"
 
 interface AppApi {
     @POST("user/passwordlesssignup")
@@ -24,7 +24,7 @@ class AppClient {
         private var instance: AppApi? = null
 
         @Synchronized
-        fun getInstance(): AppApi {
+        fun getInstance(): AppApi? {
             if (instance == null) {
                 val interceptor = HttpLoggingInterceptor()
                 interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -42,7 +42,7 @@ class AppClient {
                     .create(AppApi::class.java)
             }
 
-            return instance as AppApi
+            return instance
         }
     }
 }
