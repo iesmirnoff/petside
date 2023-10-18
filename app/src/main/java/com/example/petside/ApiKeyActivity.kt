@@ -18,8 +18,8 @@ import android.graphics.drawable.ColorDrawable
 
 class ApiKeyActivity : AppCompatActivity() {
 
-    var nextButton: Button? = null
-    var apiKeyEditText: EditText? = null
+    private var nextButton: Button? = null
+    private var apiKeyEditText: EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_api_key)

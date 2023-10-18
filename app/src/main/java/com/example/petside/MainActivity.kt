@@ -24,11 +24,11 @@ import retrofit2.HttpException
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
 
-    var emailEditText: TextInputEditText? = null
-    var emailTextInputLayout: TextInputLayout? = null
-    var descriptionEditText: TextInputEditText? = null
+    private var emailEditText: TextInputEditText? = null
+    private var emailTextInputLayout: TextInputLayout? = null
+    private var descriptionEditText: TextInputEditText? = null
 
-    var nextButton: Button? = null
+    private var nextButton: Button? = null
 
     private var disposable: Disposable? = null
 
