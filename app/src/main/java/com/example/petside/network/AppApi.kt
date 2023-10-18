@@ -16,7 +16,7 @@ interface AppApi {
     @POST("user/passwordlesssignup")
     fun signUp(@Body body: SignUpRequestModel): Observable<SignUpResponseModel>
     @GET("favourites")
-    fun getFavourites(@Query("api_key") api_key: String): Observable<Array<FavouriteItem>>
+    fun getFavourites(@Query("api_key") apiKey: String): Observable<Array<FavouriteItem>>
 }
 
 class AppClient {
