@@ -28,10 +28,10 @@ class ApiKeyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_api_key)
 
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.apply {
             setBackgroundDrawable(ColorDrawable(getColor(android.R.color.transparent)))
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
         }
 
         nextButton = findViewById(R.id.apiKeyScreenNextButton)
