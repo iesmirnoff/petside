@@ -30,7 +30,9 @@ class ApiKeyActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setBackgroundDrawable(ColorDrawable(getColor(android.R.color.transparent)))
+        supportActionBar?.apply {
+            setBackgroundDrawable(ColorDrawable(getColor(android.R.color.transparent)))
+        }
 
         nextButton = findViewById(R.id.apiKeyScreenNextButton)
         apiKeyEditText = findViewById(R.id.apiKey)
