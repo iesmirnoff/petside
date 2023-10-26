@@ -20,6 +20,9 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.HttpException
 
+const val MAIN_ACTIVITY_PREFERENCES = "MAIN_ACTIVITY_PREFERENCES"
+const val EMAIL_DATA = "EMAIL_DATA"
+const val DESCRIPTION_DATA = "DESCRIPTION_DATA"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
@@ -43,10 +46,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         supportActionBar?.hide()
 
-        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(MAIN_ACTIVITY_PREFERENCES, Context.MODE_PRIVATE)
 
-        val data1 = sharedPreferences.getString("data1", "")
-        val data2 = sharedPreferences.getString("data2", "")
+        val emailData = sharedPreferences.getString(EMAIL_DATA, "")
+        val descriptionData = sharedPreferences.getString(DESCRIPTION_DATA, "")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -56,9 +59,9 @@ class MainActivity : AppCompatActivity() {
         emailTextInputLayout = findViewById(R.id.emailLayout)
         descriptionEditText = findViewById(R.id.description)
 
-        emailEditText?.setText(data1)
-        descriptionEditText?.setText(data2)
-        nextButton?.isEnabled = !(data1!!.isEmpty() && data2!!.isEmpty())
+        emailEditText?.setText(emailData)
+        descriptionEditText?.setText(descriptionData)
+        nextButton?.isEnabled = !(emailData!!.isEmpty() && descriptionData!!.isEmpty())
 
         emailEditText!!.addTextChangedListener(textWatcher)
         descriptionEditText!!.addTextChangedListener(textWatcher)
@@ -79,8 +82,8 @@ class MainActivity : AppCompatActivity() {
                          {
                              runOnUiThread {
                                  val editor = sharedPreferences.edit()
-                                 editor.putString("data1", emailEditText!!.text.toString())
-                                 editor.putString("data2", descriptionEditText!!.text.toString())
+                                 editor.putString(EMAIL_DATA, emailEditText!!.text.toString())
+                                 editor.putString(DESCRIPTION_DATA, descriptionEditText!!.text.toString())
                                  editor.apply()
 
                                  val intent = Intent(context, ApiKeyActivity::class.java)
