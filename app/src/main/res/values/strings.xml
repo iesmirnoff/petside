@@ -6,5 +6,7 @@
     <string name="default_error_description">Что-то пошло не так…</string>
     <string name="default_error_title">Ошибка</string>
     <string name="wrong_email">Некорректный E-mail</string>
+    <string name="auth_success_title">SUCCESS</string>
+    <string name="auth_success_description">Authorization completed successfully</string>
     <string name="ok">OK</string>
 </resources>

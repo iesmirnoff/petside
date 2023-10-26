@@ -45,15 +45,15 @@ class ApiKeyActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
                     {
-
+                        showDialog(getString(R.string.auth_success_title), getString(R.string.auth_success_description))
                     },
                     { error ->
                         if (error is HttpException) {
                             val errorBody = error.response()?.errorBody()?.string()
 
-                            showErrorDialog(errorBody ?: getString(R.string.default_error_description))
+                            showDialog(getString(R.string.default_error_title), errorBody ?: getString(R.string.default_error_description))
                         } else {
-                            showErrorDialog(getString(R.string.default_error_description))
+                            showDialog(getString(R.string.default_error_title), getString(R.string.default_error_description))
                         }
                     },
                 )
@@ -70,9 +70,9 @@ class ApiKeyActivity : AppCompatActivity() {
         }
     }
 
-    private fun showErrorDialog(message: String) {
+    private fun showDialog(title: String, message: String, ) {
         val alertBuilder = AlertDialog.Builder(this)
-        alertBuilder.setTitle(getString(R.string.default_error_title))
+        alertBuilder.setTitle(title)
         alertBuilder.setMessage(message)
         alertBuilder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
             dialog.dismiss()
