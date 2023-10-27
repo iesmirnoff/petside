@@ -40,23 +40,25 @@ class ApiKeyActivity : AppCompatActivity() {
         nextButton?.setOnClickListener {
             val appClient = AppClient.getInstance()
 
-        disposable = appClient.getFavourites(apiKeyEditText?.text.toString())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe (
-                    {
-                        showDialog(getString(R.string.auth_success_title), getString(R.string.auth_success_description))
-                    },
-                    { error ->
-                        if (error is HttpException) {
-                            val errorBody = error.response()?.errorBody()?.string()
+            disposable = appClient?.run {
+                getFavourites(apiKeyEditText?.text.toString())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe (
+                        {
+                            showDialog(getString(R.string.auth_success_title), getString(R.string.auth_success_description))
+                        },
+                        { error ->
+                            if (error is HttpException) {
+                                val errorBody = error.response()?.errorBody()?.string()
 
-                            showDialog(getString(R.string.default_error_title), errorBody ?: getString(R.string.default_error_description))
-                        } else {
-                            showDialog(getString(R.string.default_error_title), getString(R.string.default_error_description))
-                        }
-                    },
-                )
+                                showDialog(getString(R.string.default_error_title), errorBody ?: getString(R.string.default_error_description))
+                            } else {
+                                showDialog(getString(R.string.default_error_title), getString(R.string.default_error_description))
+                            }
+                        },
+                    )
+            }
         }
     }
 

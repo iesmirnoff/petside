@@ -61,51 +61,52 @@ class MainActivity : AppCompatActivity() {
 
         emailEditText?.setText(emailData)
         descriptionEditText?.setText(descriptionData)
-        nextButton?.isEnabled = !(emailData!!.isEmpty() && descriptionData!!.isEmpty())
+        nextButton?.isEnabled = !(emailData?.isEmpty() == true && descriptionData?.isEmpty() == true)
 
-        emailEditText!!.addTextChangedListener(textWatcher)
-        descriptionEditText!!.addTextChangedListener(textWatcher)
+        emailEditText?.addTextChangedListener(textWatcher)
+        descriptionEditText?.addTextChangedListener(textWatcher)
 
-        nextButton!!.setOnClickListener {
+        nextButton?.setOnClickListener {
             if (validateEmail()) {
                 val context = this
 
                 val requestData = SignUpRequestModel(
-                    emailEditText!!.text.toString(),
-                    descriptionEditText!!.text.toString()
+                    emailEditText?.text.toString(),
+                    descriptionEditText?.text.toString()
                 )
-                disposable = AppClient.getInstance()
-                .signUp(requestData)
-                     .subscribeOn(Schedulers.io())
-                     .observeOn(AndroidSchedulers.mainThread())
-                     .subscribe (
-                         {
-                             runOnUiThread {
-                                 val editor = sharedPreferences.edit()
-                                 editor.putString(EMAIL_DATA, emailEditText!!.text.toString())
-                                 editor.putString(DESCRIPTION_DATA, descriptionEditText!!.text.toString())
-                                 editor.apply()
+                disposable = AppClient.getInstance()?.run {
+                    signUp(requestData)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe (
+                            {
+                                runOnUiThread {
+                                    val editor = sharedPreferences.edit()
+                                    editor.putString(EMAIL_DATA, emailEditText?.text.toString())
+                                    editor.putString(DESCRIPTION_DATA, descriptionEditText?.text.toString())
+                                    editor.apply()
 
-                                 val intent = Intent(context, ApiKeyActivity::class.java)
-                                 startActivity(intent)
-                             }
-                         },
-                         { error ->
-                             if (error is HttpException) {
-                                 val errorBody = error.response()?.errorBody()?.string()
+                                    val intent = Intent(context, ApiKeyActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            },
+                            { error ->
+                                if (error is HttpException) {
+                                    val errorBody = error.response()?.errorBody()?.string()
 
-                                 showErrorDialog(errorBody ?: getString(R.string.default_error_description))
-                             } else {
-                                 showErrorDialog(getString(R.string.default_error_description))
-                             }
-                         },
-                     )
+                                    showErrorDialog(errorBody ?: getString(R.string.default_error_description))
+                                } else {
+                                    showErrorDialog(getString(R.string.default_error_description))
+                                }
+                            },
+                        )
+                }
             } else {
-                emailTextInputLayout!!.error = getString(R.string.wrong_email)
+                emailTextInputLayout?.error = getString(R.string.wrong_email)
             }
         }
 
-        emailEditText!!.setOnFocusChangeListener { _, hasFocus ->
+        emailEditText?.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 validateEmail()
             }
@@ -130,24 +131,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun validateEmail(): Boolean {
-        val emailText = emailEditText!!.text.toString()
+        val emailText = emailEditText?.text.toString()
 
         val isValidEmail = isValidEmail(emailText)
 
         if (!isValidEmail) {
-            emailTextInputLayout!!.error = getString(R.string.wrong_email)
+            emailTextInputLayout?.error = getString(R.string.wrong_email)
         } else {
-            emailTextInputLayout!!.error = ""
+            emailTextInputLayout?.error = ""
         }
 
         return isValidEmail
     }
 
     private fun checkButtonEnabled() {
-        val email = emailEditText!!.text.toString()
-        val description = descriptionEditText!!.text.toString()
+        val email = emailEditText?.text.toString()
+        val description = descriptionEditText?.text.toString()
 
-        nextButton!!.isEnabled = email.isNotEmpty() && description.isNotEmpty()
+        nextButton?.isEnabled = email.isNotEmpty() && description.isNotEmpty()
     }
 
     private fun isValidEmail(email: String): Boolean {

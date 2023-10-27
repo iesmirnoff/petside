@@ -24,7 +24,7 @@ class AppClient {
         private var instance: AppApi? = null
 
         @Synchronized
-        fun getInstance(): AppApi {
+        fun getInstance(): AppApi? {
             if (instance == null) {
                 val interceptor = HttpLoggingInterceptor()
                 interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -42,7 +42,7 @@ class AppClient {
                     .create(AppApi::class.java)
             }
 
-            return instance!!
+            return instance
         }
     }
 }
