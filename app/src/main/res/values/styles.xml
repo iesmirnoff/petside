@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AlertDialogButtonStyle">
+        <!-- Customize the button text color and background color here -->
+        <item name="android:textColor">@color/black</item> <!-- Text color -->
+        <item name="android:background">@color/primary10</item> <!-- Background color -->
+    </style>
+    <style name="AppHeaderText">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/primary10</item>
+        <item name="lineHeight">24sp</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+    <style name="ButtonStyle">
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:backgroundTint">@color/primary30</item>
+        <item name="android:drawableEnd">@drawable/arrow_right</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
+    <style name="TextInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="TextInputEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="ThemeOverlay.AppTheme.TextInputEditText.Outlined" parent="">
+        <item name="colorPrimary">@color/black</item>
+    </style>
+</resources>
