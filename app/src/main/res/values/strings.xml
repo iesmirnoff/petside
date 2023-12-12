@@ -9,4 +9,5 @@
     <string name="auth_success_title">SUCCESS</string>
     <string name="auth_success_description">Authorization completed successfully</string>
     <string name="ok">OK</string>
+    <string name="api_key_hint">Api key</string>
 </resources>
